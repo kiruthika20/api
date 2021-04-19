@@ -11,13 +11,13 @@ import Loader from './loader';
 function App() {
 
   const [visible, setVisible] = useState(false);
-  const [load, setLoad] = useState({loader: true });
+  const [load, setLoad] = useState(false);
   const [body, setBody] = useState({});
   const [data, setData] = useState([]);// first api
   const [titlename,setTitlename] = useState('');
   const [title, setTitle] = useState('');
   const [id, setId] = useState(null);
-  
+  const[api,setDataapi]=useState();
 
 
 	useEffect(()=>{
@@ -41,6 +41,8 @@ const OnFinish = () => {
   setLoad(false);
     data[id].body =  body;
    data[id].title =  title;
+  //  const returnedTarget = Object.assign(data, api);
+  //  console.log("apreturnedTarget",returnedTarget);
    handleReset();  
     
   }
@@ -52,7 +54,7 @@ const handleReset = ()=>{
   setId('');
 }
 
-  const editRow = (data,id) => {
+  const editRow = (data,ID) => {
   
     setTitlename('Edit ');
     setVisible(true);
@@ -66,11 +68,14 @@ const handleReset = ()=>{
           .then(async response => {
               const dataapi = await response.json();
               const api=dataapi;
+              setDataapi(api)
               console.log("data two api",api)
              
-              setId(data.id);
+              setId(ID);
           })
-
+          // const url='https://jsonplaceholder.typicode.com/posts/' + data.id;
+          // url.push(setData);
+          console.log("setdata",setData)
    const { body,title } = data;
    setId(id);
    setTitle(title);
@@ -153,7 +158,7 @@ const handleReset = ()=>{
 
       >
       { 
-        load.loader? 
+        !load? 
       
       <Form>
       <Form.Item  label="Body" rules={[{ required: true }]}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.css';
 import { Table, Modal, Button, Input, Form,Space} from 'antd';
-import {DeleteOutlined, EditOutlined,LoadingOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import axios from 'axios';
 import Loader from './loader';
 
@@ -23,18 +23,15 @@ function App() {
 	useEffect(()=>{
 		apiGet();
 	},[]);
-  
- const apiGet=async ()=>{
-   try
-   {
-     const data=await axios.get("https://jsonplaceholder.typicode.com/posts").then(res=>{
-      setData(res.data);
-      
-     });
-    }catch(e){
-      console.log(e);
-    }
-   }
+  const apiGet=() => {
+		
+    fetch("https://jsonplaceholder.typicode.com/posts")
+    .then((res) =>res.json())
+    .then((json)=>{console.log(json);
+      setData(json);
+    })
+    
+};
  
   
 const OnFinish = () => {
@@ -68,13 +65,12 @@ const handleReset = ()=>{
           .then(async response => {
               const dataapi = await response.json();
               const api=dataapi;
-              setDataapi(api)
+              // setDataapi(api)
               console.log("data two api",api)
              
               setId(ID);
           })
-          // const url='https://jsonplaceholder.typicode.com/posts/' + data.id;
-          // url.push(setData);
+          
           console.log("setdata",setData)
    const { body,title } = data;
    setId(id);
@@ -137,8 +133,10 @@ const handleReset = ()=>{
       ),
     },
   ];
-  
+
+     
   return (
+    
     <div>
      
      <Table dataSource={data} columns={columns} />
@@ -157,6 +155,7 @@ const handleReset = ()=>{
         ]}
 
       >
+      
       { 
         !load? 
       
